@@ -33,9 +33,22 @@ def run_game_once(players_list, end_mode=EndMode.official, suits=5,
     return h
 
 
+def create_player_by_name(player_name):
+    name_segments = player_name.split('@')[::-1] # deco1@deco2@player -> [player, deco2, deco1]
+    if len(name_segments) < 1:
+        raise RuntimeError("Bad player name")
+    player = getattr(players, name_segments[0]) # player
+    
+    for decorator_name in name_segments[1:]:
+        decorator = getattr(players.decorators, decorator_name)
+        player = decorator(player) # player -> deco2(player) -> deco1(deco2(player))
+
+    return player
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('player_name', help='<player_name> or <player1_name>,<player2_name>')
+    parser.add_argument('player_name', help='<player_name> or <player1_name>,<decorator_name>@<player2_name>')
     parser.add_argument('-t', '--times', default=1, type=int)
     parser.add_argument('-n', '--players', default=3, type=int)
     parser.add_argument('-c', '--allow-cheats', default=False, action='store_true')
@@ -47,7 +60,7 @@ def main():
     args = parser.parse_args()
     
     player_names = args.player_name.split(',')
-    players_list = ([getattr(players, pn) for pn in player_names] * args.players)
+    players_list = ([create_player_by_name(pn) for pn in player_names] * args.players)
     players_list = players_list[:args.players]
 
     if args.one_io_player:

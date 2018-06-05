@@ -5,7 +5,7 @@ from typing import NamedTuple, List, Tuple
 
 def oracle_player(log: List[NamedTuple], hands: List[List[Card]],
                   rules: Rules, tokens: Tokens, slots: List[int],
-                  discard_pile: List[List[int]]) -> Tuple[None, NamedTuple]:
+                  discard_pile: List[List[int]]) -> Tuple:
     """
     Zvika and Ofer's oracle player
     """
