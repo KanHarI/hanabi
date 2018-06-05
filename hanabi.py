@@ -6,9 +6,13 @@ import players
 
 def run_game_n_times(players_list, t, end_mode=EndMode.official, suits=5, allow_cheats=False):
     score = []
+    
+    ips = [None] * len(players_list) # intergame player state
+
     for i in range(t):
-        h = Hanabi(players_list, rules=DEFAULT_RULES._replace(suits=suits), allow_cheats=allow_cheats, end_mode=end_mode)
-        score.append(h.run())
+        h = Hanabi(players_list, rules=DEFAULT_RULES._replace(suits=suits), allow_cheats=allow_cheats, end_mode=end_mode, ips=ips)
+        match_result, ips = h.run_and_return_ips()
+        score.append(match_result)
 
     import pandas as pd
     d = pd.Series(score)
