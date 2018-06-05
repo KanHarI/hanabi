@@ -218,16 +218,12 @@ class Hanabi:
         for argname in player_args:
             args_list.append(possible_args[argname])
         
-        player_action = list(player(*args_list))
-        if len(player_action) is 4:
-            self.ips[self.current_player] = player_action[0]
-            player_action = player_action[1:]
+        player_action = ([None]*2 + list(player(*args_list)))[-4:]
+        
+        self.ips[self.current_player] = player_action[0]
+        self.player_states[self.current_player] = player_action[1]
 
-        if len(player_action) is 3:
-            self.player_states[self.current_player] = player_action[0]
-            player_action = player_action[1:]
-
-        return player_action
+        return player_action[2:]
 
 
     @staticmethod
