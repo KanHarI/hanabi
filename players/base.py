@@ -46,7 +46,7 @@ def make_io_player(name: str) -> Callable:
     return io_player
 
 
-def random_player(log: List[NamedTuple], hands: List[List[Card]],
+def random_player(ips: None, state: None, log: List[NamedTuple], hands: List[List[Card]],
                   rules: Rules, tokens: Tokens, slots: List[int],
                   discard_pile: List[List[int]]) -> Tuple[None, NamedTuple]:
     """
@@ -70,12 +70,12 @@ def random_player(log: List[NamedTuple], hands: List[List[Card]],
     action = random.choice(possible_actions)
 
     if action == Play:
-        return Play.create(random.choice(hands[my_id]).id), ''
+        return ips, state, Play.create(random.choice(hands[my_id]).id), ''
     if action == Discard:
-        return Discard.create(random.choice(hands[my_id]).id), ''
+        return ips, state, Discard.create(random.choice(hands[my_id]).id), ''
     if action == Clue:
         player = random.choice([i for i in range(len(hands)) if i != my_id])
         clue_type = random.choice(['suit', 'rank'])
-        return Clue.create(
+        return ips, state, Clue.create(
             player, clue_type,
             getattr(random.choice(hands[player]).data, clue_type)), ''
