@@ -179,7 +179,7 @@ class Hanabi:
         self.discard_pile = tuple([[0] * len(self.rules.ranks) for _ in range(self.rules.suits)])
 
     def run(self) -> int:
-        return (lambda x, _: x)(*self.run_and_return_ips(*args))
+        return (lambda x, _: x)(*self.run_and_return_ips())
 
     def run_and_return_ips(self) -> int:
         if self.log:
