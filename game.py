@@ -178,7 +178,7 @@ class Hanabi:
         self.slots = [0] * self.rules.suits
         self.discard_pile = tuple([[0] * len(self.rules.ranks) for _ in range(self.rules.suits)])
 
-    def run(self, *args) -> int:
+    def run(self) -> int:
         return (lambda x, _: x)(*self.run_and_return_ips(*args))
 
     def run_and_return_ips(self) -> int:
